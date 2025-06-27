@@ -468,15 +468,15 @@ public class DefaultRocketMQListenerContainer implements InitializingBean,
             for (MessageExt messageExt : msgs) {
                 try {
                     rocketMQMessageHandler.doHandler(messageExt, messageExt1 -> {
-                        log.debug("received msg: {}", messageExt);
+                        log.debug("received msg: {}", messageExt1);
                         try {
                             long now = System.currentTimeMillis();
                             DefaultRocketMQListenerContainer container = applicationContext.getBean(name, DefaultRocketMQListenerContainer.class);
-                            container.handleMessage(messageExt);
+                            container.handleMessage(messageExt1);
                             long costTime = System.currentTimeMillis() - now;
-                            log.debug("consume {} cost: {} ms", messageExt.getMsgId(), costTime);
+                            log.debug("consume {} cost: {} ms", messageExt1.getMsgId(), costTime);
                         } catch (Exception e) {
-                            log.warn("consume message failed. messageId:{}, topic:{}, reconsumeTimes:{}", messageExt.getMsgId(), messageExt.getTopic(), messageExt.getReconsumeTimes(), e);
+                            log.warn("consume message failed. messageId:{}, topic:{}, reconsumeTimes:{}", messageExt1.getMsgId(), messageExt1.getTopic(), messageExt1.getReconsumeTimes(), e);
                             throw e;
                         }
                     });
