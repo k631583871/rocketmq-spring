@@ -60,7 +60,7 @@ public class RocketMQClientTemplate extends AbstractMessageSendingTemplate<Strin
 
     private String charset = "UTF-8";
 
-    private MessagePostProcessor postProcessor;
+    private MessagePostProcessor messagePostProcessor;
 
     public Producer getProducer() {
         if (Objects.isNull(producer)) {
@@ -133,12 +133,12 @@ public class RocketMQClientTemplate extends AbstractMessageSendingTemplate<Strin
         this.charset = charset;
     }
 
-    public MessagePostProcessor getPostProcessor() {
-        return postProcessor;
+    public MessagePostProcessor getMessagePostProcessor() {
+        return messagePostProcessor;
     }
 
-    public void setPostProcessor(MessagePostProcessor postProcessor) {
-        this.postProcessor = postProcessor;
+    public void setMessagePostProcessor(MessagePostProcessor messagePostProcessor) {
+        this.messagePostProcessor = messagePostProcessor;
     }
 
     @Override
@@ -401,7 +401,7 @@ public class RocketMQClientTemplate extends AbstractMessageSendingTemplate<Strin
 
 
     private org.apache.rocketmq.client.apis.message.Message createRocketMQMessage(String destination, Message<?> message, Duration messageDelayTime, String messageGroup) {
-        Message<?> msg = this.doConvert(message.getPayload(), message.getHeaders(), postProcessor);
+        Message<?> msg = this.doConvert(message.getPayload(), message.getHeaders(), messagePostProcessor);
         return RocketMQUtil.convertToClientMessage(getMessageConverter(), charset,
                 destination, msg, messageDelayTime, messageGroup);
     }

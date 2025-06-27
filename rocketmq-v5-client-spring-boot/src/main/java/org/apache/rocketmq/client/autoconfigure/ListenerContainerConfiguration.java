@@ -20,9 +20,11 @@ import org.apache.rocketmq.client.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.client.core.RocketMQListener;
 import org.apache.rocketmq.client.support.DefaultListenerContainer;
 import org.apache.rocketmq.client.support.RocketMQMessageConverter;
+import org.apache.rocketmq.client.support.RocketMQMessageHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -52,11 +54,15 @@ public class ListenerContainerConfiguration implements ApplicationContextAware {
 
     private final List<DefaultListenerContainer> containers = new ArrayList<>();
 
+    private RocketMQMessageHandler rocketMQMessageHandler;
+
     public ListenerContainerConfiguration(RocketMQMessageConverter rocketMQMessageConverter,
-                                          ConfigurableEnvironment environment, RocketMQProperties rocketMQProperties) {
+                                          ConfigurableEnvironment environment, RocketMQProperties rocketMQProperties,
+                                          RocketMQMessageHandler rocketMQMessageHandler) {
         this.rocketMQMessageConverter = rocketMQMessageConverter;
         this.environment = environment;
         this.rocketMQProperties = rocketMQProperties;
+        this.rocketMQMessageHandler = rocketMQMessageHandler;
     }
 
     @Override
@@ -95,7 +101,7 @@ public class ListenerContainerConfiguration implements ApplicationContextAware {
         DefaultListenerContainer container = new DefaultListenerContainer();
         container.setName(name);
         container.setRocketMQMessageListener(annotation);
-        container.setMessageListener((RocketMQListener) bean);
+        container.setMessageListener(messageView -> rocketMQMessageHandler.consume(messageView, message -> ((RocketMQListener) bean).consume(message)));
         container.setAccessKey(environment.resolvePlaceholders(annotation.accessKey()));
         container.setSecretKey(environment.resolvePlaceholders(annotation.secretKey()));
         container.setConsumerGroup(environment.resolvePlaceholders(annotation.consumerGroup()));

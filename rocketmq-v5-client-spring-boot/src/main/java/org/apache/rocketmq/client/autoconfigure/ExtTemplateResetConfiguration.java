@@ -95,7 +95,7 @@ public class ExtTemplateResetConfiguration implements ApplicationContextAware, S
         RocketMQClientTemplate rocketMQTemplate = (RocketMQClientTemplate) bean;
         rocketMQTemplate.setProducerBuilder(producerBuilder);
         rocketMQTemplate.setMessageConverter(rocketMQMessageConverter.getMessageConverter());
-        rocketMQTemplate.setPostProcessor(rocketMQMessagePostProcessor.getMessagePostProcessor());
+        rocketMQTemplate.setMessagePostProcessor(rocketMQMessagePostProcessor.getMessagePostProcessor());
         String topic = environment.resolvePlaceholders(annotation.topic());
         log.info("Set real producer to {} using topic {}", beanName, topic);
     }

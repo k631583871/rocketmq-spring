@@ -51,10 +51,10 @@ import java.util.Objects;
 
 @Configuration
 @EnableConfigurationProperties(RocketMQProperties.class)
-@Import({MessageConverterConfiguration.class, ListenerContainerConfiguration.class, ExtTemplateResetConfiguration.class,
+@Import({MessageConverterConfiguration.class, RocketMQMessageHandlerConfiguration.class, ListenerContainerConfiguration.class, ExtTemplateResetConfiguration.class,
         ExtConsumerResetConfiguration.class, RocketMQTransactionConfiguration.class, RocketMQListenerConfiguration.class,
         MessagePostProcessorConfiguration.class})
-@AutoConfigureAfter({MessageConverterConfiguration.class, MessagePostProcessorConfiguration.class})
+@AutoConfigureAfter({MessageConverterConfiguration.class, MessagePostProcessorConfiguration.class,RocketMQMessageHandlerConfiguration.class})
 @AutoConfigureBefore({RocketMQTransactionConfiguration.class})
 public class RocketMQAutoConfiguration implements ApplicationContextAware {
     private static final Logger log = LoggerFactory.getLogger(RocketMQAutoConfiguration.class);
@@ -139,7 +139,7 @@ public class RocketMQAutoConfiguration implements ApplicationContextAware {
             rocketMQClientTemplate.setSimpleConsumerBuilder((SimpleConsumerBuilder) applicationContext.getBean(SIMPLE_CONSUMER_BUILDER_BEAN_NAME));
         }
         rocketMQClientTemplate.setMessageConverter(rocketMQMessageConverter.getMessageConverter());
-        rocketMQClientTemplate.setPostProcessor(rocketMQMessagePostProcessor.getMessagePostProcessor());
+        rocketMQClientTemplate.setMessagePostProcessor(rocketMQMessagePostProcessor.getMessagePostProcessor());
         return rocketMQClientTemplate;
     }
 
