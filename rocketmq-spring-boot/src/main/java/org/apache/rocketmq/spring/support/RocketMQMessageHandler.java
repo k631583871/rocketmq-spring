@@ -24,6 +24,6 @@ import org.apache.rocketmq.common.message.MessageExt;
  */
 public interface RocketMQMessageHandler {
 
-    void consume(MessageExt message, RocketMQMessageHandlerChain consumer) throws Exception;
+    void doHandler(MessageExt message, RocketMQMessageHandlerChain chain) throws Exception;
 
 }

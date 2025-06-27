@@ -32,7 +32,7 @@ class RocketMQMessageHandlerConfiguration {
 
     @Bean
     public RocketMQMessageHandler createRocketMQMessageHandler() {
-        return (message, consumer) -> consumer.consume(message);
+        return (message, consumer) -> consumer.doHandler(message);
     }
 
 }

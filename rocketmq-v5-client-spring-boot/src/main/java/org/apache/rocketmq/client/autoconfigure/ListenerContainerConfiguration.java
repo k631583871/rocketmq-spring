@@ -24,7 +24,6 @@ import org.apache.rocketmq.client.support.RocketMQMessageHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -101,7 +100,7 @@ public class ListenerContainerConfiguration implements ApplicationContextAware {
         DefaultListenerContainer container = new DefaultListenerContainer();
         container.setName(name);
         container.setRocketMQMessageListener(annotation);
-        container.setMessageListener(messageView -> rocketMQMessageHandler.consume(messageView, message -> ((RocketMQListener) bean).consume(message)));
+        container.setMessageListener(messageView -> rocketMQMessageHandler.doHandler(messageView, message -> ((RocketMQListener) bean).consume(message)));
         container.setAccessKey(environment.resolvePlaceholders(annotation.accessKey()));
         container.setSecretKey(environment.resolvePlaceholders(annotation.secretKey()));
         container.setConsumerGroup(environment.resolvePlaceholders(annotation.consumerGroup()));

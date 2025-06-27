@@ -10,5 +10,5 @@ import org.apache.rocketmq.common.message.MessageExt;
  * @Date: 2025-06-27 18:02
  */
 public interface RocketMQMessageHandlerChain {
-    void consume(MessageExt message) throws Exception;
+    void doHandler(MessageExt message) throws Exception;
 }

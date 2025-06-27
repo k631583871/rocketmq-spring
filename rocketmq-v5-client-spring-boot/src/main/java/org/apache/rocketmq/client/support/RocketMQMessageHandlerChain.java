@@ -11,5 +11,5 @@ import org.apache.rocketmq.client.apis.message.MessageView;
  * @Date: 2025-06-27 18:02
  */
 public interface RocketMQMessageHandlerChain {
-    ConsumeResult consume(MessageView message);
+    ConsumeResult doHandler(MessageView message);
 }

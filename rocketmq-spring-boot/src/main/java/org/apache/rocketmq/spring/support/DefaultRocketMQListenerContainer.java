@@ -437,7 +437,7 @@ public class DefaultRocketMQListenerContainer implements InitializingBean,
         public ConsumeConcurrentlyStatus consumeMessage(List<MessageExt> msgs, ConsumeConcurrentlyContext context) {
             for (MessageExt messageExt : msgs) {
                 try {
-                    rocketMQMessageHandler.consume(messageExt, messageExt1 -> {
+                    rocketMQMessageHandler.doHandler(messageExt, messageExt1 -> {
                         log.debug("received msg: {}", messageExt1);
                         try {
                             long now = System.currentTimeMillis();
@@ -467,7 +467,7 @@ public class DefaultRocketMQListenerContainer implements InitializingBean,
         public ConsumeOrderlyStatus consumeMessage(List<MessageExt> msgs, ConsumeOrderlyContext context) {
             for (MessageExt messageExt : msgs) {
                 try {
-                    rocketMQMessageHandler.consume(messageExt, messageExt1 -> {
+                    rocketMQMessageHandler.doHandler(messageExt, messageExt1 -> {
                         log.debug("received msg: {}", messageExt);
                         try {
                             long now = System.currentTimeMillis();

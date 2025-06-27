@@ -25,6 +25,6 @@ import org.apache.rocketmq.client.apis.message.MessageView;
  */
 public interface RocketMQMessageHandler {
 
-    ConsumeResult consume(MessageView message, RocketMQMessageHandlerChain consumer);
+    ConsumeResult doHandler(MessageView message, RocketMQMessageHandlerChain chain);
 
 }
