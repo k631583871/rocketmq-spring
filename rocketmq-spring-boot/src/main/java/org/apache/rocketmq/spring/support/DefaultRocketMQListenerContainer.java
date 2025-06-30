@@ -140,7 +140,7 @@ public class DefaultRocketMQListenerContainer implements InitializingBean,
 
     private String instanceName;
 
-    private RocketMQMessageHandler rocketMQMessageHandler;
+    private RocketMQMessageHandler rocketMQMessageHandler = (message, chain) -> chain.doHandler(message);
 
     public long getSuspendCurrentQueueTimeMillis() {
         return suspendCurrentQueueTimeMillis;
